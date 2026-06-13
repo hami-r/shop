@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: #fcf9f8;
+  color: #1c1b1b;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, opacity 180ms ease,
+    transform 180ms ease, box-shadow 180ms ease;
+}
+
+.glass-nav {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.label {
+  @apply text-xs font-semibold uppercase tracking-[0.18em];
+}
+
+.input {
+  @apply w-full rounded-2xl border border-outline-variant bg-white px-4 py-3 text-sm outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-boutique hover:scale-[1.01];
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-secondary px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-secondary hover:bg-secondary/5;
+}

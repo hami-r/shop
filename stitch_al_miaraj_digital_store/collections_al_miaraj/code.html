@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Al Miaraj | Luxury Bukhoor &amp; Perfumes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e5e2e1",
+                    "tertiary-fixed": "#e4e3d7",
+                    "primary-container": "#064e3b",
+                    "on-primary-fixed": "#002117",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#2b6954",
+                    "inverse-on-surface": "#f3f0ef",
+                    "surface": "#fcf9f8",
+                    "surface-dim": "#dcd9d9",
+                    "secondary-fixed": "#ffe088",
+                    "surface-container-high": "#eae7e7",
+                    "tertiary": "#2e2f27",
+                    "inverse-primary": "#95d3ba",
+                    "on-secondary": "#ffffff",
+                    "secondary": "#735c00",
+                    "primary": "#003527",
+                    "background": "#fcf9f8",
+                    "primary-fixed": "#b0f0d6",
+                    "on-error-container": "#93000a",
+                    "on-background": "#1c1b1b",
+                    "secondary-fixed-dim": "#e9c349",
+                    "outline-variant": "#bfc9c3",
+                    "on-surface-variant": "#404944",
+                    "outline": "#707974",
+                    "surface-container-low": "#f6f3f2",
+                    "on-tertiary-container": "#b2b2a8",
+                    "on-tertiary-fixed": "#1b1c15",
+                    "tertiary-container": "#44453d",
+                    "primary-fixed-dim": "#95d3ba",
+                    "on-tertiary-fixed-variant": "#46473f",
+                    "on-surface": "#1c1b1b",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#c7c7bc",
+                    "secondary-container": "#fed65b",
+                    "surface-bright": "#fcf9f8",
+                    "on-primary-container": "#80bea6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#0b513d",
+                    "inverse-surface": "#313030",
+                    "on-secondary-fixed": "#241a00",
+                    "surface-container": "#f0eded",
+                    "surface-container-highest": "#e5e2e1",
+                    "on-secondary-container": "#745c00",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "margin-desktop": "64px",
+                    "container-max": "1200px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Playfair Display"],
+                    "headline-md-mobile": ["Playfair Display"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "display-lg-mobile": ["Playfair Display"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "display-lg": ["Playfair Display"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "title-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-md-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .product-card-shadow {
+            box-shadow: 0 10px 30px -15px rgba(0, 53, 39, 0.15);
+        }
+        .backdrop-blur-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .glass-overlay {
+            background: rgba(252, 249, 248, 0.7);
+        }
+        @media (max-width: 768px) {
+            .mobile-grid-layout {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined">translate</span>
+</button>
+<div class="flex flex-col items-center">
+<h1 class="font-headline-md-mobile text-headline-md-mobile tracking-tight text-primary">Al Miaraj</h1>
+<span class="text-[10px] tracking-[0.2em] uppercase font-label-sm text-secondary -mt-1">Luxury Boutique</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:flex text-on-surface-variant font-label-sm hover:text-primary transition-colors">AR</button>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Header & Breadcrumbs -->
+<div class="mb-10 text-center md:text-left">
+<nav class="flex items-center justify-center md:justify-start gap-2 text-label-sm text-outline mb-4">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-secondary">Bukhoor &amp; Perfumes</span>
+</nav>
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-2">Exquisite Essences</h2>
+<p class="text-on-surface-variant max-w-2xl text-body-md">Discover our curated collection of traditional Arabian scents, hand-poured Bukhoors, and artisanal perfumes crafted for the discerning soul.</p>
+</div>
+<!-- Filter & Sort Bar -->
+<div class="sticky top-20 z-40 mb-8 py-4 bg-background/90 backdrop-blur-md flex flex-wrap items-center justify-between gap-4 border-y border-surface-variant/30">
+<div class="flex items-center gap-6 overflow-x-auto no-scrollbar">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full font-label-sm hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+                    Filter
+                </button>
+<div class="flex gap-4">
+<button class="text-label-sm text-primary font-bold whitespace-nowrap border-b-2 border-secondary pb-1">All Products</button>
+<button class="text-label-sm text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap pb-1">Bukhoor</button>
+<button class="text-label-sm text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap pb-1">Perfumes</button>
+<button class="text-label-sm text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap pb-1">Gift Sets</button>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm text-outline hidden md:inline">Sort by:</span>
+<button class="flex items-center gap-1 font-label-sm text-primary group">
+                    Latest Arrivals
+                    <span class="material-symbols-outlined text-[18px] group-hover:translate-y-0.5 transition-transform">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gutter">
+<!-- Product Card 1 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface-container-low mb-4 product-card-shadow">
+<img alt="Luxury Bukhoor Muattar" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A high-end, artistic product shot of a premium Arabian Bukhoor container made of dark green marble with gold accents. The jar sits on a reflective cream surface with soft, cinematic lighting creating elegant highlights. Wisps of delicate white smoke rise from a nearby ornate gold burner, evoking a sense of ancient ritual and modern luxury. The color palette is dominated by deep emerald, warm gold, and creamy ivory." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0uhYCScmZJXWsavsZH8THNQQdc9o6LgY2eBhJtUjxItaOEV_irA0wzzJWfn_veeFzmhzJH5RL5eKX4pyZE99uSOUMw2TSgVQx2LWHMVUmRcuT325BgzDgwXn-EA3qxZwv6K4kqhawtL9TA3IBavENnnfsZZx8ZVj2Xw4-GWXqTnL85FWveJqNTySshcv4K5Zna9Tf90_NWFqWNbBEENWk0AeqFqivKmuSkelToUflwNsUg1CoBwA-w_hx5CN6YdS60sH-hU6j0hk"/>
+<button class="absolute bottom-4 right-4 bg-secondary-fixed text-on-secondary-fixed p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</button>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/10 backdrop-blur-md text-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-widest">New Arrival</span>
+</div>
+</div>
+<p class="text-label-sm text-secondary mb-1">Bukhoor</p>
+<h3 class="font-title-lg text-primary group-hover:text-secondary transition-colors mb-2 line-clamp-1">Muattar Al Sultan</h3>
+<p class="font-body-md text-on-surface-variant">AED 450.00</p>
+</div>
+<!-- Product Card 2 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface-container-low mb-4 product-card-shadow">
+<img alt="Artisanal Oud Perfume" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A luxurious perfume bottle crafted from heavy faceted glass with a minimalist gold cap, positioned as the centerpiece in a bright, modern boutique setting. The liquid inside is a rich amber color, catching the soft morning light. The background is a blurred ivory wall with subtle architectural molding. The entire scene breathes sophistication, emphasizing a clean, light-mode aesthetic with warm gold and amber accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzTiLhVy3vQ28_0x0HqmmNEHjrLyhqzMfmrptlcJhsvcICHT31fke_ss-BAOijLUeKB1fmcT6WYOtQmv0bPTZRIdC76BPjv7fHv4jZ6-Y8_2LC6KhO5ccxI4bDWAPR1skliLIS4EeMXOwMNaebnHS-7lwoyEW_EngyDQDi_CE--TRwj3k4BXoV0zIDUHYP4aKVs25zyPWrBL2SrLPDuYwAwQjTOg-tJwI3VGLw76FJ2JkPhcTOCzxhdro5cGVEutjUnaSCQnQG_IY"/>
+<button class="absolute bottom-4 right-4 bg-secondary-fixed text-on-secondary-fixed p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</button>
+</div>
+<p class="text-label-sm text-secondary mb-1">Perfume</p>
+<h3 class="font-title-lg text-primary group-hover:text-secondary transition-colors mb-2 line-clamp-1">Oud Rose Elixir</h3>
+<p class="font-body-md text-on-surface-variant">AED 820.00</p>
+</div>
+<!-- Product Card 3 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface-container-low mb-4 product-card-shadow">
+<img alt="Pure Cambodian Oud" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A small, exquisite crystal vial containing dark, viscous Oud oil, resting on a bed of raw agarwood chips. The lighting is focused and dramatic, highlighting the texture of the wood and the clarity of the crystal. The composition is minimalist and centered, set against a warm beige background that feels like premium paper. The mood is intimate, highlighting the heritage and precious nature of the scent." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcfc7qwVlBbvM5v7dtdxqBPwOPHeLdZLQ5hcigkJQ8Mi2H2hGQxuNbpVtUqIijcz8igRNb1TG7gWZzgh2tLAXa_2P2-uk7efgqna-3wCzilp4p1GPKFNVRHEAIxT1nnDL08gBPEhoeZGr-jOe1JeiCnMmuAiPe8SRlOqHFkVG_w3ELly7qi5OKMgIGGAT3orSiIko42aPEn-ZUlqXVwtU6CBT_Szc1u8p6QriC_pKLvEASYtMtogRxOO33rTzGb1zw86_TWHzzt_0"/>
+<button class="absolute bottom-4 right-4 bg-secondary-fixed text-on-secondary-fixed p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</button>
+</div>
+<p class="text-label-sm text-secondary mb-1">Dihn Al Oud</p>
+<h3 class="font-title-lg text-primary group-hover:text-secondary transition-colors mb-2 line-clamp-1">Cambodian Grade AA</h3>
+<p class="font-body-md text-on-surface-variant">AED 1,250.00</p>
+</div>
+<!-- Product Card 4 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface-container-low mb-4 product-card-shadow">
+<img alt="Premium Saffron Blend" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A stack of three elegant, cream-colored gift boxes with gold foil embossing of the Al Miaraj logo. A single sprig of dried jasmine and a few threads of red saffron are artfully placed on the top box. The lighting is soft and airy, creating a sense of luxury and celebration. The scene is shot in a bright, clean studio environment with a focus on the tactile quality of the paper and gold foil." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEref7O20ufCbVUqlOb0TqtD-DR_5cqogkTCcGMwiGocZ8En-Qqd_OLBXWJ_vjnfNaEphf1yzfFtCkEZUhdj_DLCmeidOGMTR0pc7CA0kPRuVBjC5NBEd9zPwJ9ZyeWb4H8kuQCQsrcF8TtTGsBRv-4_jG2LhEm5Uu8osNbL9ujShTQtlmfONOC7hhGyZBtnIQfyI8gCCtybUKcwhIQNWszrVSjbQZJ8GJouh4pAm2cMFPXFBu_J865VvYHxDI8-37EX7rICmYQoI"/>
+<button class="absolute bottom-4 right-4 bg-secondary-fixed text-on-secondary-fixed p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</button>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary text-on-secondary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-widest">Bestseller</span>
+</div>
+</div>
+<p class="text-label-sm text-secondary mb-1">Gift Set</p>
+<h3 class="font-title-lg text-primary group-hover:text-secondary transition-colors mb-2 line-clamp-1">Majestic Heritage Set</h3>
+<p class="font-body-md text-on-surface-variant">AED 1,800.00</p>
+</div>
+<!-- Product Card 5 (Repeated pattern for grid fill) -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface-container-low mb-4 product-card-shadow">
+<img alt="Bakhoor Burner Gold" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="An ornate, hand-carved gold incense burner sitting on a polished white marble pedestal. The burner is intricate with traditional geometric patterns. A soft, warm glow emanates from within, and a thin, elegant stream of smoke curls upwards. The environment is a clean, bright gallery-style space that highlights the craftsmanship of the object. High-contrast emerald and gold elements ground the design in luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoEbhW6FUMethAcJvK6zA9zOCGW_aU8zM4INzYhvUJ17ACUW7Z4KxcfYKVV2LX3T8mlg8vyyjjurhhQKsu7Gb4QzjBmk2eIL2PJ8DWSb3zlOCVVFAO4xJZigPfJNu5W2fYCh9lm59AZJq5pp_xPG-USezl91NBG6FMlmJcvVPzaOSwZIYpVVzJiuojQIey9T2fPIAnPEDeD9-68R96ingV7x1Jik7oKiYTf8Ja9GEY0RP81ecVbqLZ6ky89V1vJuY5LfeicrllWAs"/>
+<button class="absolute bottom-4 right-4 bg-secondary-fixed text-on-secondary-fixed p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</button>
+</div>
+<p class="text-label-sm text-secondary mb-1">Accessories</p>
+<h3 class="font-title-lg text-primary group-hover:text-secondary transition-colors mb-2 line-clamp-1">Royal Gold Mabkhara</h3>
+<p class="font-body-md text-on-surface-variant">AED 320.00</p>
+</div>
+<!-- Product Card 6 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface-container-low mb-4 product-card-shadow">
+<img alt="White Musk Perfume" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A sleek, frosted glass perfume bottle with a minimalist gold logo, standing on a soft white silk fabric that is draped elegantly. The lighting is high-key and ethereal, emphasizing the purity and lightness of the scent. Small, delicate white flowers are scattered around the base of the bottle. The overall aesthetic is one of serene luxury and pristine cleanliness, perfect for a high-end beauty brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMVFPntZcd0D38_wyHhmg_LH-UnIdwfoY79jqd3OWorexCzeK2IKo5NrE7SBxm3zZVcc2t-QwfaO0vPRCr9mobAzySOc2nB8YC-1ud0R_nXxpWLt75jYgFBDK8yQDk3Z8zinnOUg2itGVGVTbF_V9veqDJNuL0f_04WgN_i2HcwiMQySJnWDJwZOyjiGfMXqcfzE8e4BMEp8SqGft2nC4x3a4t0kfoa6Elwo7I7IyATv-oWLCJvyFdyUSKTLxq4vJp1M52DkInzlE"/>
+<button class="absolute bottom-4 right-4 bg-secondary-fixed text-on-secondary-fixed p-3 rounded-full shadow-lg opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</button>
+</div>
+<p class="text-label-sm text-secondary mb-1">Perfume</p>
+<h3 class="font-title-lg text-primary group-hover:text-secondary transition-colors mb-2 line-clamp-1">Silk Musk Collection</h3>
+<p class="font-body-md text-on-surface-variant">AED 590.00</p>
+</div>
+</div>
+<!-- Load More / Pagination -->
+<div class="mt-16 flex flex-col items-center">
+<p class="text-label-sm text-outline mb-6">Showing 6 of 24 products</p>
+<div class="w-full max-w-xs h-[2px] bg-surface-variant/30 mb-8 overflow-hidden rounded-full">
+<div class="h-full bg-secondary w-1/4 rounded-full"></div>
+</div>
+<button class="px-12 py-4 bg-primary text-on-primary rounded-full font-label-sm hover:shadow-xl hover:-translate-y-1 transition-all active:scale-95">
+                Load More
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface/80 backdrop-blur-xl rounded-t-xl shadow-lg z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold bg-primary-container/10 rounded-xl px-3 py-1 active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-label-sm text-label-sm">Categories</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-sm text-label-sm">Favorites</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:scale-90 transition-all duration-300 ease-out relative" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+<span class="absolute -top-1 -right-1 bg-secondary text-on-secondary text-[8px] h-4 w-4 rounded-full flex items-center justify-center">2</span>
+</a>
+</nav>
+<!-- Floating Action Button (Concierge / WhatsApp) -->
+<div class="fixed bottom-24 right-6 md:bottom-12 md:right-12 z-50">
+<button class="bg-[#25D366] text-white p-4 rounded-full shadow-[0_10px_40px_-10px_rgba(37,211,102,0.5)] hover:scale-110 active:scale-90 transition-all duration-300 flex items-center gap-2 group">
+<svg class="w-6 h-6 fill-current" viewbox="0 0 24 24">
+<path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.185-.573c.948.517 2.031.812 3.146.813 3.182 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.765-5.768-5.765zm3.376 8.202c-.128.366-.733.689-1.012.729-.279.04-.555.076-1.502-.323-.947-.399-1.554-1.359-1.602-1.423-.048-.063-.393-.523-.393-1.003 0-.48.25-.715.34-.813.088-.098.192-.122.256-.122s.128 0 .184.004c.059.004.14.001.216.183.08.192.272.663.296.711.024.048.04.104.008.168-.032.063-.048.104-.096.16-.048.056-.104.12-.152.176-.048.048-.104.104-.04.216.064.112.284.468.608.756.418.373.77.489.878.541.108.052.172.044.236-.028.064-.072.272-.319.344-.427.072-.108.144-.088.244-.048.1.04 1.136.535 1.24.587.104.052.176.08.204.12.028.04.028.232-.1.599zM12 2C6.477 2 2 6.477 2 12c0 1.891.528 3.655 1.446 5.161L2 22l4.981-1.309C8.384 21.503 10.125 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.72 0-3.32-.44-4.717-1.214l-.338-.189-2.903.763.777-2.84-.208-.344C3.84 14.86 3.4 13.48 3.4 12c0-4.742 3.858-8.6 8.6-8.6s8.6 3.858 8.6 8.6-3.858 8.6-8.6 8.6z"></path>
+</svg>
+<span class="hidden md:inline font-label-sm">Concierge</span>
+</button>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        // Soft revealing images on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0', 'translate-y-4');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.group').forEach(item => {
+            item.classList.add('opacity-0', 'translate-y-4', 'transition-all', 'duration-700');
+            observer.observe(item);
+        });
+    </script>
+</body></html>
