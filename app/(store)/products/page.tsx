@@ -5,8 +5,16 @@ import { getCategories } from "@/lib/categories";
 import { getProducts } from "@/lib/products";
 
 export const metadata: Metadata = {
-  title: "Shop Bukhoor, Oud, Perfumes and Cosmetics in Sharjah UAE",
-  description: "Browse Al Miaraj products, send an enquiry on WhatsApp, and visit the Sharjah shop for pickup."
+  title: "Bukhoor, Oud & Perfumes Catalog",
+  description: "Browse Al Miaraj products, send an enquiry on WhatsApp, and visit the Sharjah shop for pickup.",
+  alternates: {
+    canonical: "/products"
+  },
+  openGraph: {
+    title: "Bukhoor, Oud & Perfumes Catalog | Al Miaraj Sharjah UAE",
+    description: "Browse Al Miaraj products, send an enquiry on WhatsApp, and visit the Sharjah shop for pickup.",
+    url: "/products"
+  }
 };
 
 export default async function ProductsPage({

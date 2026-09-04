@@ -5,7 +5,11 @@ import { getCartLink } from "@/lib/cart-links";
 
 export const metadata: Metadata = {
   title: "Shared Enquiry | Al Miaraj Sharjah UAE",
-  description: "Review a shared Al Miaraj enquiry list with product details and images."
+  description: "Review a shared Al Miaraj enquiry list with product details and images.",
+  robots: {
+    index: false,
+    follow: false
+  }
 };
 
 export default async function SharedCartPage({

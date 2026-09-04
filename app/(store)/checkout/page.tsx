@@ -3,7 +3,11 @@ import { CheckoutForm } from "@/components/store/checkout-form";
 
 export const metadata: Metadata = {
   title: "Send Enquiry | Al Miaraj Sharjah UAE",
-  description: "Send a product enquiry to Al Miaraj on WhatsApp before visiting the shop."
+  description: "Send a product enquiry to Al Miaraj on WhatsApp before visiting the shop.",
+  robots: {
+    index: false,
+    follow: false
+  }
 };
 
 export default function CheckoutPage() {

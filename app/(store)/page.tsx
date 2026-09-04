@@ -24,9 +24,16 @@ const categoryImages: Record<string, string> = {
     "https://lh3.googleusercontent.com/aida-public/AB6AXuCX2v1pr15K4hLnyHC0gohl61AnEKqAyE1MOfaZqrX1AyIjXn6P01rFHNjvYEHK3W8lLsnQEI6FBGwwCqUQiMw8WOroqq6QKcg2I8t5nbmhrNVcrwykZ5C7ESx_d7BcVyQMycadN9WOebO6tvXUaTcmPJwzbY9VnrunEusIHhLckHiNwUtZNb0t8yCBz3B6voRzYMOAmjHACX9fflH9KGI8Udv8wIEQcD2xn82U-2LsNM_MkbxrpCXVsuBT-gJpT_jl5MMxUpeY6aY"
 };
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
-  title: "Al Miaraj Shop for Bukhoor, Oud and Perfumes in Sharjah UAE",
-  description: "Browse Al Miaraj products in Sharjah UAE, send an enquiry on WhatsApp, and visit the shop for pickup."
+  title: {
+    absolute: "Al Miaraj | Bukhoor, Oud, Perfumes & Daily Items in Sharjah UAE"
+  },
+  description: "Browse Al Miaraj products in Sharjah UAE, send an enquiry on WhatsApp, and visit the shop for pickup.",
+  alternates: {
+    canonical: "./"
+  }
 };
 
 export default async function HomePage() {

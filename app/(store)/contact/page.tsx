@@ -4,7 +4,15 @@ import { storeInfo } from "@/lib/sample-data";
 
 export const metadata: Metadata = {
   title: "Contact Al Miaraj Sharjah UAE",
-  description: "Contact Al Miaraj in Sharjah by phone, WhatsApp or message form before visiting the shop."
+  description: "Contact Al Miaraj in Sharjah by phone, WhatsApp or message form before visiting the shop.",
+  alternates: {
+    canonical: "/contact"
+  },
+  openGraph: {
+    title: "Contact Al Miaraj Sharjah UAE",
+    description: "Contact Al Miaraj in Sharjah by phone, WhatsApp or message form before visiting the shop.",
+    url: "/contact"
+  }
 };
 
 export default function ContactPage() {

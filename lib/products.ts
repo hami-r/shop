@@ -1,41 +1,67 @@
-import { unstable_noStore as noStore } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { sampleProducts } from "@/lib/sample-data";
 import type { Product } from "@/lib/types";
 
+let memoryCache: { products: Product[]; timestamp: number } | null = null;
+const CACHE_TTL_MS = 60_000;
+
 export async function getProducts(includeInactive = false): Promise<Product[]> {
-  noStore();
+  const now = Date.now();
+  if (memoryCache && now - memoryCache.timestamp < CACHE_TTL_MS) {
+    return memoryCache.products.filter((product) => includeInactive || product.is_active);
+  }
+
   const supabase = getSupabaseAdmin();
   if (!supabase) return sampleProducts.filter((product) => includeInactive || product.is_active);
 
-  let query = supabase.from("products").select("*").order("created_at", { ascending: false });
-  if (!includeInactive) query = query.eq("is_active", true);
-  const { data, error } = await query;
-  if (error) {
-    console.error(error);
-    return sampleProducts;
+  try {
+    let query = supabase.from("products").select("*").order("created_at", { ascending: false });
+    if (!includeInactive) query = query.eq("is_active", true);
+    const { data, error } = await query;
+    if (error || !data?.length) {
+      return sampleProducts.filter((product) => includeInactive || product.is_active);
+    }
+    memoryCache = { products: data, timestamp: now };
+    return data;
+  } catch {
+    return sampleProducts.filter((product) => includeInactive || product.is_active);
   }
-  return data ?? [];
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  noStore();
+  if (memoryCache) {
+    const found = memoryCache.products.find((product) => product.slug === slug);
+    if (found) return found;
+  }
+
   const supabase = getSupabaseAdmin();
   if (!supabase) return sampleProducts.find((product) => product.slug === slug) ?? null;
 
-  const { data, error } = await supabase.from("products").select("*").eq("slug", slug).single();
-  if (error) return null;
-  return data;
+  try {
+    const { data, error } = await supabase.from("products").select("*").eq("slug", slug).single();
+    if (error || !data) return sampleProducts.find((product) => product.slug === slug) ?? null;
+    return data;
+  } catch {
+    return sampleProducts.find((product) => product.slug === slug) ?? null;
+  }
 }
 
 export async function getProductById(id: string): Promise<Product | null> {
-  noStore();
+  if (memoryCache) {
+    const found = memoryCache.products.find((product) => product.id === id);
+    if (found) return found;
+  }
+
   const supabase = getSupabaseAdmin();
   if (!supabase) return sampleProducts.find((product) => product.id === id) ?? null;
 
-  const { data, error } = await supabase.from("products").select("*").eq("id", id).single();
-  if (error) return null;
-  return data;
+  try {
+    const { data, error } = await supabase.from("products").select("*").eq("id", id).single();
+    if (error || !data) return sampleProducts.find((product) => product.id === id) ?? null;
+    return data;
+  } catch {
+    return sampleProducts.find((product) => product.id === id) ?? null;
+  }
 }
 
 export function formatAED(value: number) {

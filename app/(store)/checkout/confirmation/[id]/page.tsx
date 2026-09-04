@@ -3,7 +3,11 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Enquiry Sent | Al Miaraj Sharjah UAE",
-  description: "Your Al Miaraj enquiry has been received."
+  description: "Your Al Miaraj enquiry has been received.",
+  robots: {
+    index: false,
+    follow: false
+  }
 };
 
 export default function ConfirmationPage({ params }: { params: { id: string } }) {
