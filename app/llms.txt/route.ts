@@ -20,7 +20,7 @@ export async function GET() {
 - **WhatsApp:** +${storeInfo.whatsapp}
 - **Email:** ${storeInfo.email}
 - **Google Maps:** ${storeInfo.googleMapsUrl}
-- **Website:** ${baseUrl}
+- **Website:** ${baseUrl} (English), ${baseUrl}/ar (Arabic / العربية)
 - **Operating Model:** Browse online catalog, send enquiry on WhatsApp, check availability, and pick up in store in Sharjah.
 
 ## Key Product Categories

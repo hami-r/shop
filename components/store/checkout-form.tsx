@@ -2,73 +2,61 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { formatAED } from "@/lib/products";
+import { useI18n } from "@/components/i18n/locale-provider";
+import { sendToWhatsApp } from "@/components/store/whatsapp-checkout-button";
+import { SkeletonBlock } from "@/components/ui/skeletons";
+import { Spinner } from "@/components/ui/spinner";
+import { cartItemName, formatPrice, localePath } from "@/lib/i18n";
 import { useCartStore } from "@/lib/store";
-import { getWhatsAppCheckoutUrl } from "@/lib/whatsapp";
-
-type CartLinkResponse = {
-  publicUrl: string;
-  editUrl: string;
-  error?: string;
-};
 
 export function CheckoutForm() {
+  const { locale, t } = useI18n();
   const { items } = useCartStore();
   const hasStarted = useRef(false);
+  const [mounted, setMounted] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
-    async function redirectToWhatsApp() {
-      if (!items.length || hasStarted.current) return;
-      hasStarted.current = true;
+    if (!mounted || !items.length || hasStarted.current) return;
+    hasStarted.current = true;
+    sendToWhatsApp(items, locale).catch(() => setError(t.cart.error));
+  }, [items, locale, mounted, t.cart.error]);
 
-      const response = await fetch("/api/cart-links", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items })
-      });
-      const payload = (await response.json()) as CartLinkResponse;
-      if (!response.ok) {
-        setError(payload.error ?? "Could not prepare WhatsApp enquiry.");
-        return;
-      }
-
-      window.localStorage.setItem(`almiaraj-cart-edit-${payload.publicUrl}`, payload.editUrl);
-      window.location.href = getWhatsAppCheckoutUrl(items, payload.publicUrl);
-    }
-
-    redirectToWhatsApp();
-  }, [items]);
+  if (!mounted) {
+    return (
+      <div className="mt-10 rounded-card border border-hairline bg-white p-6 md:p-8" aria-busy="true">
+        <SkeletonBlock className="h-3 w-40" />
+        <SkeletonBlock className="mt-4 h-4 w-3/4" />
+        <SkeletonBlock className="mt-8 h-4 w-full" />
+        <SkeletonBlock className="mt-3 h-4 w-full" />
+      </div>
+    );
+  }
 
   return (
-    <div className="mt-8 rounded-3xl bg-white p-6 shadow-boutique">
+    <div className="mt-10 rounded-card border border-hairline bg-white p-6 md:p-8">
+      <p className="label flex animate-fade-in items-center gap-3 text-ink">
+        {items.length && !error ? <Spinner size={14} /> : null}
+        {items.length ? t.checkout.opening : t.checkout.emptyTitle}
+      </p>
+      <p className="mt-3 text-stone">{items.length ? t.checkout.openingText : t.checkout.emptyText}</p>
       {items.length ? (
-        <>
-          <p className="label text-secondary">Opening WhatsApp</p>
-          <p className="mt-3 text-on-surface-variant">Your enquiry message is ready with product names and quantities.</p>
-        </>
-      ) : (
-        <>
-          <p className="label text-secondary">Your Enquiry List Is Empty</p>
-          <p className="mt-3 text-on-surface-variant">Add products to your enquiry list before sending a message.</p>
-        </>
-      )}
-      {items.length ? (
-        <div className="mt-5 grid gap-3 text-sm">
+        <ul className="mt-6 grid gap-3 border-t border-hairline pt-5 text-base">
           {items.map((item) => (
-            <div key={item.id} className="flex justify-between gap-4">
-              <span>{item.name} x {item.quantity}</span>
-              <span>{formatAED(item.price)}</span>
-            </div>
+            <li key={item.id} className="flex justify-between gap-4">
+              <span>{cartItemName(item, locale)} × {item.quantity}</span>
+              <span className="text-stone">{formatPrice(item.price, locale)}</span>
+            </li>
           ))}
-        </div>
-      ) : null}
-      {error ? <p className="mt-4 text-sm font-semibold text-error">{error}</p> : null}
-      {!items.length ? (
-        <Link href="/products" className="btn-primary mt-6 w-fit">
-          Browse Products
+        </ul>
+      ) : (
+        <Link href={localePath(locale, "/products")} className="btn-primary mt-6">
+          {t.cart.browse}
         </Link>
-      ) : null}
+      )}
+      {error ? <p className="mt-4 text-sm font-semibold text-error">{error}</p> : null}
     </div>
   );
 }

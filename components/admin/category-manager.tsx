@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export function CategoryManager({ categories }: { categories: string[] }) {
   const router = useRouter();
@@ -33,7 +34,8 @@ export function CategoryManager({ categories }: { categories: string[] }) {
       <form onSubmit={addCategory} className="grid gap-4 rounded-3xl bg-white p-6 shadow-boutique md:grid-cols-[1fr_auto]">
         <input className="input" value={name} onChange={(event) => setName(event.target.value)} placeholder="Category name, e.g. Oud" />
         <button className="btn-primary" disabled={isSaving || !name.trim()}>
-          {isSaving ? "Adding..." : "Add Category"}
+          {isSaving ? <Spinner /> : null}
+          {isSaving ? "Adding…" : "Add Category"}
         </button>
         {error ? <p className="text-sm font-semibold text-error md:col-span-2">{error}</p> : null}
       </form>
@@ -41,7 +43,7 @@ export function CategoryManager({ categories }: { categories: string[] }) {
         <h2 className="font-display text-2xl font-semibold text-primary">Categories</h2>
         <div className="mt-4 flex flex-wrap gap-2">
           {categories.map((category) => (
-            <span key={category} className="rounded-full bg-surface-container-low px-4 py-2 text-sm font-semibold text-primary">
+            <span key={category} className="animate-fade-in rounded-full bg-surface-container-low px-4 py-2 text-sm font-semibold text-primary">
               {category}
             </span>
           ))}

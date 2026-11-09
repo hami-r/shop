@@ -2,12 +2,12 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { CartItem, Product } from "@/lib/types";
+import type { CardProduct, CartItem } from "@/lib/types";
 
 type CartState = {
   items: CartItem[];
   isOpen: boolean;
-  addProduct: (product: Product, quantity?: number) => void;
+  addProduct: (product: Pick<CardProduct, "id" | "name" | "name_ar" | "slug" | "price" | "images">, quantity?: number) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -36,7 +36,7 @@ export const useCartStore = create<CartState>()(
             isOpen: true,
             items: [
               ...state.items,
-              { id: product.id, name: product.name, slug: product.slug, price: product.price, image, quantity }
+              { id: product.id, name: product.name, name_ar: product.name_ar ?? null, slug: product.slug, price: product.price, image, quantity }
             ]
           };
         }),

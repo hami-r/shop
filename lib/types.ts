@@ -1,8 +1,10 @@
 export type Product = {
   id: string;
   name: string;
+  name_ar?: string | null;
   slug: string;
   description: string | null;
+  description_ar?: string | null;
   price: number;
   compare_price: number | null;
   images: string[] | null;
@@ -11,6 +13,9 @@ export type Product = {
   is_active: boolean;
   created_at?: string;
 };
+
+/** The few fields a product card needs — keeps pages light when listing many products. */
+export type CardProduct = Pick<Product, "id" | "name" | "name_ar" | "slug" | "price" | "compare_price" | "category" | "images">;
 
 export type ProductCategory = {
   id: string;
@@ -21,6 +26,7 @@ export type ProductCategory = {
 export type CartItem = {
   id: string;
   name: string;
+  name_ar?: string | null;
   slug: string;
   price: number;
   image: string;

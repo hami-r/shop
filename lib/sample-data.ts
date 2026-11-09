@@ -6,6 +6,7 @@ export const storeInfo = {
   whatsapp: "971563757435",
   email: "hello@almiaraj.ae",
   address: "Hay Mogader - Sharjah, UAE",
+  instagramUrl: "https://www.instagram.com/almiarajshop",
   googleProfileUrl: "https://share.google/7RZb0oynrOwgib4jD",
   googleMapsUrl:
     "https://www.google.com/maps/place/Al+Miaraj/@25.058407,56.3547859,20.22z/data=!4m6!3m5!1s0x3ef4fb99d3e9e3ab:0x92de29b70930459a!8m2!3d25.0581701!4d56.3549201!16s%2Fg%2F11vylh1hq2?entry=ttu",

@@ -23,8 +23,10 @@ export const contactSchema = z.object({
 
 export const productSchema = z.object({
   name: z.string().min(2),
+  name_ar: z.string().trim().optional().nullable().transform((value) => value || null),
   slug: z.string().min(2),
   description: z.string().optional(),
+  description_ar: z.string().trim().optional().nullable().transform((value) => value || null),
   price: z.coerce.number().nonnegative(),
   compare_price: z.coerce.number().nonnegative().optional().nullable(),
   category: z.string().optional(),

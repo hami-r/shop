@@ -47,7 +47,8 @@ export async function POST(request: Request) {
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
 
   const origin = getOrigin(request);
-  const publicUrl = `${origin}/shared-cart/${data.id}`;
+  const prefix = body.locale === "ar" ? "/ar" : "";
+  const publicUrl = `${origin}${prefix}/shared-cart/${data.id}`;
   const editUrl = `${publicUrl}?edit=${editToken}`;
 
   return NextResponse.json({ id: data.id, publicUrl, editUrl }, { status: 201 });

@@ -1,8 +1,10 @@
 create table if not exists products (
   id uuid default gen_random_uuid() primary key,
   name text not null,
+  name_ar text,
   slug text unique not null,
   description text,
+  description_ar text,
   price decimal(10,2) not null,
   compare_price decimal(10,2),
   images text[],

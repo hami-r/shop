@@ -15,6 +15,7 @@ export async function priceCartItems(items: Array<{ id: unknown; quantity: unkno
     priced.push({
       id: product.id,
       name: product.name,
+      name_ar: product.name_ar ?? null,
       slug: product.slug,
       price: Number(product.price),
       image: product.images?.[0] ?? "",

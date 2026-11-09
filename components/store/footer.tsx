@@ -1,38 +1,82 @@
 import Link from "next/link";
-import { Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { LanguageLink } from "@/components/i18n/language-link";
+import { Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { categories, storeInfo } from "@/lib/sample-data";
 import { categoryPath, getCategoryCopy } from "@/lib/seo";
 
-export function Footer() {
+export function Footer({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale);
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-primary px-5 py-12 text-white md:px-16">
-      <div className="mx-auto grid max-w-boutique gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
+    <footer className="bg-ink-band-soft text-white">
+      <div className="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:py-20">
         <div>
-          <h2 className="font-display text-3xl font-semibold">Al Miaraj</h2>
-          <p className="mt-3 max-w-sm text-sm leading-6 text-white/75">
-            A local Sharjah shop for Bukhoor, Oud, perfumes, cosmetics and everyday items. Enquire on WhatsApp and visit us for pickup.
-          </p>
+          <p className="font-display text-3xl font-light tracking-[0.18em] rtl:tracking-normal">{locale === "ar" ? t.storeName : "AL MIARAJ"}</p>
+          <p className="mt-5 max-w-sm text-base leading-7 text-mute">{t.footer.about}</p>
         </div>
-        <div className="grid gap-3 text-sm text-white/80">
-          <Link href="/products">Products</Link>
-          <Link href="/cart">Cart</Link>
-          <Link href="/checkout">Enquire</Link>
-          <Link href="/contact">Contact</Link>
+
+        <div>
+          <p className="label text-mute">{t.footer.shop}</p>
+          <ul className="mt-5 grid gap-3 text-base">
+            {categories.map((category) => (
+              <li key={category}>
+                <Link className="text-white/85 hover:text-white" href={categoryPath(category, locale)}>
+                  {getCategoryCopy(category, locale).heading}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link className="text-white/85 hover:text-white" href={localePath(locale, "/products")}>
+                {t.nav.shop}
+              </Link>
+            </li>
+          </ul>
         </div>
-        <div className="grid gap-3 text-sm text-white/80">
-          {categories.map((category) => (
-            <Link key={category} href={categoryPath(category)}>
-              {getCategoryCopy(category).heading}
-            </Link>
-          ))}
+
+        <div>
+          <p className="label text-mute">{t.footer.help}</p>
+          <ul className="mt-5 grid gap-3 text-base">
+            <li><Link className="text-white/85 hover:text-white" href={localePath(locale, "/cart")}>{t.footer.enquiryList}</Link></li>
+            <li><Link className="text-white/85 hover:text-white" href={localePath(locale, "/contact")}>{t.footer.visit}</Link></li>
+          </ul>
         </div>
-        <div className="grid gap-3 text-sm text-white/80">
-          <a className="flex items-center gap-2" href={storeInfo.googleMapsUrl} target="_blank" rel="noreferrer">
-            <MapPin size={16} /> {storeInfo.address}
-          </a>
-          <a className="flex items-center gap-2" href={`tel:${storeInfo.phone}`}><Phone size={16} /> {storeInfo.phone}</a>
-          <a className="flex items-center gap-2" href={`mailto:${storeInfo.email}`}><Mail size={16} /> {storeInfo.email}</a>
-          <a className="flex items-center gap-2" href={`https://www.instagram.com/almiarajshop?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==`}><Instagram size={16} /> Instagram</a>
+
+        <div>
+          <p className="label text-mute">{t.footer.contact}</p>
+          <ul className="mt-5 grid gap-3 text-base">
+            <li>
+              <a className="flex items-start gap-2 text-white/85 hover:text-white" href={storeInfo.googleMapsUrl} target="_blank" rel="noreferrer">
+                <MapPin size={17} className="mt-1 shrink-0" /> {t.address}
+              </a>
+            </li>
+            <li>
+              <a className="flex items-center gap-2 text-white/85 hover:text-white" href={`tel:${storeInfo.phone.replace(/\s/g, "")}`}>
+                <Phone size={17} /> <span dir="ltr">{storeInfo.phone}</span>
+              </a>
+            </li>
+            <li>
+              <a className="flex items-center gap-2 text-white/85 hover:text-white" href={`https://wa.me/${storeInfo.whatsapp}`}>
+                <MessageCircle size={17} /> WhatsApp
+              </a>
+            </li>
+            <li>
+              <a className="flex items-center gap-2 text-white/85 hover:text-white" href={storeInfo.instagramUrl} target="_blank" rel="noreferrer">
+                <Instagram size={17} /> Instagram
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="border-t border-white/10">
+        <div className="container-x flex flex-wrap items-center justify-between gap-4 py-6 text-sm text-mute">
+          <p>© {year} {t.storeName}. {t.footer.rights}</p>
+          <div className="flex items-center gap-2">
+            <span>{t.footer.language}:</span>
+            <LanguageLink href="/" locale="en" className={`rounded-full px-3 py-1 ${locale === "en" ? "bg-white/10 text-white" : "hover:text-white"}`}>English</LanguageLink>
+            <LanguageLink href="/ar" locale="ar" className={`rounded-full px-3 py-1 ${locale === "ar" ? "bg-white/10 text-white" : "hover:text-white"}`}>العربية</LanguageLink>
+          </div>
         </div>
       </div>
     </footer>

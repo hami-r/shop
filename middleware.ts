@@ -1,7 +1,7 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
 
 type CookieToSet = { name: string; value: string; options: CookieOptions };
-import { NextResponse, type NextRequest } from "next/server";
 
 function isAdminEmail(email: string | undefined | null) {
   const allowed = (process.env.ADMIN_EMAILS ?? "")
@@ -11,7 +11,7 @@ function isAdminEmail(email: string | undefined | null) {
   return Boolean(email && allowed.includes(email.toLowerCase()));
 }
 
-export async function middleware(request: NextRequest) {
+async function handleAdmin(request: NextRequest) {
   let response = NextResponse.next({ request });
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -44,6 +44,30 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
+// Paths served outside the language folders (API, metadata files, generated images).
+const passthrough = /^\/(api|_next|og|icon|apple-icon|sitemap\.xml|robots\.txt|manifest\.webmanifest|llms\.txt|favicon\.ico)(\/|$)/;
+
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) return handleAdmin(request);
+  if (passthrough.test(pathname) || /\.[a-z0-9]+$/i.test(pathname)) return NextResponse.next();
+
+  // English lives at the root. /en/... is redirected so there is only one URL per page.
+  if (pathname === "/en" || pathname.startsWith("/en/")) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(/^\/en/, "") || "/";
+    return NextResponse.redirect(url, 308);
+  }
+
+  if (pathname === "/ar" || pathname.startsWith("/ar/")) return NextResponse.next();
+
+  // Everything else is English: serve it from the /en folder without changing the URL.
+  const url = request.nextUrl.clone();
+  url.pathname = `/en${pathname === "/" ? "" : pathname}`;
+  return NextResponse.rewrite(url);
+}
+
 export const config = {
-  matcher: ["/admin", "/admin/:path*"]
+  matcher: ["/((?!_next/static|_next/image).*)"]
 };

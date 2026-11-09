@@ -3,6 +3,7 @@
 import { LockKeyhole, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 import { getSupabaseBrowser } from "@/lib/supabase";
 
 export default function AdminLoginPage() {
@@ -10,24 +11,29 @@ export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
   async function login(event: React.FormEvent) {
     event.preventDefault();
     setError("");
+    setBusy(true);
     const supabase = getSupabaseBrowser();
     if (!supabase) {
       setError("Add Supabase env vars to enable admin login.");
+      setBusy(false);
       return;
     }
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
     if (authError) {
       setError(authError.message);
+      setBusy(false);
       return;
     }
     const check = await fetch("/api/admin/session", { cache: "no-store" }).then((res) => res.json()).catch(() => null);
     if (!check?.admin) {
       await supabase.auth.signOut();
       setError("This account is not an admin. Add its email to ADMIN_EMAILS in your Netlify environment variables.");
+      setBusy(false);
       return;
     }
     router.replace("/admin");
@@ -83,8 +89,9 @@ export default function AdminLoginPage() {
             />
           </label>
           {error ? <p className="rounded-2xl bg-error/10 p-3 text-sm font-semibold text-error">{error}</p> : null}
-          <button className="btn-primary w-full" disabled={!email || !password}>
-            Sign In
+          <button className="btn-primary w-full" disabled={!email || !password || busy} aria-busy={busy}>
+            {busy ? <Spinner /> : null}
+            {busy ? "Signing in…" : "Sign In"}
           </button>
         </form>
       </div>

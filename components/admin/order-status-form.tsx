@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export function OrderStatusForm({
   id,
@@ -13,10 +14,12 @@ export function OrderStatusForm({
   const router = useRouter();
   const [value, setValue] = useState(status);
   const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
 
   async function updateStatus(event: React.FormEvent) {
     event.preventDefault();
     setError("");
+    setSaving(true);
     const response = await fetch(`/api/orders/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -25,9 +28,11 @@ export function OrderStatusForm({
     if (!response.ok) {
       const payload = await response.json();
       setError(payload.error ?? "Could not update status.");
+      setSaving(false);
       return;
     }
     router.refresh();
+    setSaving(false);
   }
 
   return (
@@ -38,7 +43,10 @@ export function OrderStatusForm({
         <option value="delivered">delivered</option>
       </select>
       {error ? <p className="text-sm font-semibold text-error">{error}</p> : null}
-      <button className="btn-primary">Update Status</button>
+      <button className="btn-primary" disabled={saving} aria-busy={saving}>
+        {saving ? <Spinner /> : null}
+        {saving ? "Updating…" : "Update Status"}
+      </button>
     </form>
   );
 }

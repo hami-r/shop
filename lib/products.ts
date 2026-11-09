@@ -1,6 +1,6 @@
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { sampleProducts } from "@/lib/sample-data";
-import type { Product } from "@/lib/types";
+import type { CardProduct, Product } from "@/lib/types";
 
 let memoryCache: { products: Product[]; timestamp: number } | null = null;
 const CACHE_TTL_MS = 60_000;
@@ -78,4 +78,25 @@ export function slugify(value: string) {
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+export function toCardProduct(product: Product): CardProduct {
+  return {
+    id: product.id,
+    name: product.name,
+    name_ar: product.name_ar ?? null,
+    slug: product.slug,
+    price: Number(product.price),
+    compare_price: product.compare_price ? Number(product.compare_price) : null,
+    category: product.category,
+    images: product.images?.slice(0, 1) ?? []
+  };
+}
+
+export const PAGE_SIZE = 24;
+
+export function paginate<T>(items: T[], page: number, size = PAGE_SIZE) {
+  const pageCount = Math.max(1, Math.ceil(items.length / size));
+  const current = Math.min(Math.max(1, Math.floor(page) || 1), pageCount);
+  return { items: items.slice((current - 1) * size, current * size), page: current, pageCount };
 }

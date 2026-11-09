@@ -1,24 +1,19 @@
 "use client";
 
-import Image from "next/image";
+import { FadeImage } from "@/components/motion/fade-image";
 import { useState } from "react";
-import { productImageAlt } from "@/lib/seo";
+import { useI18n } from "@/components/i18n/locale-provider";
 
-export function ProductGallery({ images, name, category }: { images: string[]; name: string; category?: string | null }) {
-  const [selectedImage, setSelectedImage] = useState(images[0] ?? "");
+export function ProductGallery({ images, name, category }: { images: string[]; name: string; category: string }) {
+  const { t } = useI18n();
+  const [selected, setSelected] = useState(0);
+  const current = images[selected];
 
   return (
-    <div className="space-y-4">
-      <div className="relative aspect-square overflow-hidden rounded-3xl bg-surface-container-low shadow-boutique md:aspect-[4/5]">
-        {selectedImage ? (
-          <Image
-            src={selectedImage}
-            alt={productImageAlt(name, category, images.indexOf(selectedImage) + 1)}
-            fill
-            priority
-            className="object-cover"
-            sizes="(min-width: 1024px) 50vw, 100vw"
-          />
+    <div className="space-y-3">
+      <div className="relative aspect-square overflow-hidden rounded-card bg-surface-grey md:aspect-[4/5] md:rounded-media">
+        {current ? (
+          <FadeImage key={current} src={current} className="object-cover" alt={t.product.imageAlt(name, category, selected + 1)} fill priority={selected === 0} sizes="(min-width: 1024px) 50vw, 100vw" />
         ) : null}
       </div>
       {images.length > 1 ? (
@@ -27,13 +22,14 @@ export function ProductGallery({ images, name, category }: { images: string[]; n
             <button
               type="button"
               key={image}
-              className={`relative aspect-square overflow-hidden rounded-2xl bg-surface-container-high ring-2 ${
-                selectedImage === image ? "ring-secondary" : "ring-transparent"
+              className={`relative aspect-square overflow-hidden rounded-2xl bg-surface-grey ring-2 ring-offset-2 ring-offset-canvas ${
+                selected === index ? "ring-stone" : "ring-transparent"
               }`}
-              onClick={() => setSelectedImage(image)}
-              aria-label={`Show ${name} image ${index + 1}`}
+              onClick={() => setSelected(index)}
+              aria-label={t.product.showImage(name, index + 1)}
+              aria-pressed={selected === index}
             >
-              <Image src={image} alt={productImageAlt(name, category, index + 1)} fill className="object-cover" sizes="25vw" />
+              <FadeImage src={image} alt={t.product.imageAlt(name, category, index + 1)} fill className="object-cover transition-transform duration-500 ease-calm hover:scale-105" sizes="25vw" />
             </button>
           ))}
         </div>

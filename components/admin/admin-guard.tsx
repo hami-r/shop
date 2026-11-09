@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 import { getSupabaseBrowser } from "@/lib/supabase";
 
 export function AdminGuard({ children }: { children: React.ReactNode }) {
@@ -59,9 +60,15 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
     };
   }, [pathname, router]);
 
-  if (status === "checking") return <div className="px-5 py-16 md:px-16">Checking admin session...</div>;
-  if (status === "redirecting") return <div className="px-5 py-16 md:px-16">Redirecting to admin login...</div>;
-  return <>{children}</>;
+  if (status !== "authenticated") {
+    return (
+      <div className="flex animate-fade-in items-center gap-3 px-5 py-16 text-stone md:px-16" role="status">
+        <Spinner />
+        {status === "checking" ? "Checking admin session…" : "Redirecting to admin login…"}
+      </div>
+    );
+  }
+  return <div className="animate-page-in">{children}</div>;
 }
 
 export function AdminNav() {

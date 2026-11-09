@@ -6,10 +6,39 @@
   color-scheme: light;
 }
 
+html {
+  scroll-behavior: smooth;
+  background: #f7f1e8;
+}
+
+/* Language switch: fade the page to cream, switch, fade back in. */
+.page-shell {
+  transition: opacity 0.22s ease;
+}
+html.page-leaving .page-shell {
+  opacity: 0;
+}
+
+/* Placeholder while something loads (images, skeleton blocks). */
+.skeleton {
+  background: linear-gradient(100deg, #ece6dc 20%, #f6f1e9 40%, #ece6dc 60%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 body {
-  background: #fcf9f8;
-  color: #1c1b1b;
+  background: #f7f1e8;
+  color: #1c1b1a;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+[dir="rtl"] body {
+  line-height: 1.7;
 }
 
 button,
@@ -21,23 +50,76 @@ select {
     transform 180ms ease, box-shadow 180ms ease;
 }
 
-.glass-nav {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+/* Scroll reveal: an element is only hidden while the observer is actually watching it
+   (.reveal-pending), so content can never get stuck invisible and is always readable without JS. */
+[data-reveal] {
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal].reveal-pending {
+  opacity: 0;
+  transform: translateY(28px);
 }
 
-.label {
-  @apply text-xs font-semibold uppercase tracking-[0.18em];
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal].reveal-pending {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
-.input {
-  @apply w-full rounded-2xl border border-outline-variant bg-white px-4 py-3 text-sm outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20;
+:focus-visible {
+  outline: 2px solid #39221e;
+  outline-offset: 3px;
 }
 
-.btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-boutique hover:scale-[1.01];
-}
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-boutique px-4 md:px-10;
+  }
 
-.btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full border border-secondary px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-secondary hover:bg-secondary/5;
+  /* DESIGN.md eyebrow: 12px / 700 / tracked uppercase. Arabic has no case, so no tracking. */
+  .label {
+    @apply text-xs font-bold uppercase tracking-[0.08em];
+  }
+  [dir="rtl"] .label {
+    @apply text-[0.8rem] normal-case tracking-normal;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-hairline bg-white px-4 py-3 text-base text-ink outline-none placeholder:text-ash focus:border-stone focus:ring-2 focus:ring-stone/15;
+  }
+
+  /* The one action colour per view. */
+  .btn-primary {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 text-base font-semibold text-white hover:bg-primary-container active:scale-[0.98] disabled:opacity-60;
+  }
+  /* Outline pill on cream. */
+  .btn-secondary {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-stone px-7 py-3 text-base font-semibold text-stone hover:bg-stone hover:text-white active:scale-[0.98];
+  }
+  .btn-stone {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-stone px-7 py-3 text-base font-semibold text-white hover:bg-ink active:scale-[0.98];
+  }
+  .btn-on-dark {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-canvas px-7 py-3 text-base font-semibold text-stone hover:bg-white active:scale-[0.98];
+  }
+  .icon-btn {
+    @apply grid h-11 w-11 place-items-center rounded-full border border-hairline bg-white text-stone hover:border-stone active:scale-95;
+  }
+
+  .heading-display {
+    @apply font-display font-light leading-[1.05] text-ink;
+  }
 }

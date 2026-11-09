@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import { FadeImage } from "@/components/motion/fade-image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Edit, Eye, EyeOff, Plus } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
+import { Spinner } from "@/components/ui/spinner";
 import { formatAED } from "@/lib/products";
 import type { Product } from "@/lib/types";
 
@@ -13,6 +14,8 @@ export function AdminProductsClient({ products }: { products: Product[] }) {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [, startTransition] = useTransition();
 
   const filteredProducts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -38,12 +41,16 @@ export function AdminProductsClient({ products }: { products: Product[] }) {
   }, [products, query, sortBy, status]);
 
   async function toggleActive(product: Product) {
+    setTogglingId(product.id);
     await fetch(`/api/products/${product.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ is_active: !product.is_active })
     });
-    router.refresh();
+    startTransition(() => {
+      router.refresh();
+      window.setTimeout(() => setTogglingId(null), 400);
+    });
   }
 
   return (
@@ -74,7 +81,7 @@ export function AdminProductsClient({ products }: { products: Product[] }) {
             <div className="grid grid-cols-[72px_1fr] items-center gap-4">
               <div className="relative aspect-square overflow-hidden rounded-2xl bg-surface-container-low">
                 {product.images?.[0] ? (
-                  <Image src={product.images[0]} alt={product.name} fill className="object-cover" sizes="72px" />
+                  <FadeImage src={product.images[0]} alt={product.name} fill className="object-cover" sizes="72px" />
                 ) : (
                   <div className="grid h-full place-items-center text-xs font-semibold text-on-surface-variant">No image</div>
                 )}
@@ -93,10 +100,12 @@ export function AdminProductsClient({ products }: { products: Product[] }) {
               <button
                 className={`grid h-10 w-10 place-items-center rounded-full border border-outline-variant ${product.is_active ? "text-primary" : "text-outline"}`}
                 onClick={() => toggleActive(product)}
+                disabled={togglingId === product.id}
+                aria-busy={togglingId === product.id}
                 aria-label={product.is_active ? "Mark product inactive" : "Mark product active"}
                 title={product.is_active ? "Mark inactive" : "Mark active"}
               >
-                {product.is_active ? <Eye size={16} /> : <EyeOff size={16} />}
+                {togglingId === product.id ? <Spinner size={14} /> : product.is_active ? <Eye size={16} /> : <EyeOff size={16} />}
               </button>
             </div>
           </div>

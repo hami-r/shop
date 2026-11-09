@@ -23,6 +23,7 @@ export async function POST(request: Request) {
   const path = `${crypto.randomUUID()}-${safeFilename(file.name)}`;
   const { error } = await supabase.storage.from(bucket).upload(path, file, {
     contentType: file.type,
+    cacheControl: "31536000",
     upsert: false
   });
 
