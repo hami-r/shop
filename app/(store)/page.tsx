@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { categoryPath } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -84,7 +85,7 @@ export default async function HomePage() {
           <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-6">
             {categories.map((category, index) => (
               <Link
-                href={`/products?category=${encodeURIComponent(category)}`}
+                href={categoryPath(category)}
                 key={category}
                 className={`group relative overflow-hidden rounded-3xl bg-white p-6 shadow-boutique ${
                   index === 0 ? "col-span-2 min-h-[260px] md:row-span-2 md:min-h-[460px]" : "min-h-[180px]"

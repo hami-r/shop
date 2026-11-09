@@ -1,5 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/admin-auth";
 import { getCategories } from "@/lib/categories";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { categorySchema } from "@/lib/validators";
@@ -9,6 +10,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const supabase = getSupabaseAdmin();
   if (!supabase) return NextResponse.json({ error: "Supabase service role is not configured." }, { status: 500 });
 

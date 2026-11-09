@@ -20,8 +20,18 @@ export default function AdminLoginPage() {
       return;
     }
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
-    if (authError) setError(authError.message);
-    else router.push("/admin");
+    if (authError) {
+      setError(authError.message);
+      return;
+    }
+    const check = await fetch("/api/admin/session", { cache: "no-store" }).then((res) => res.json()).catch(() => null);
+    if (!check?.admin) {
+      await supabase.auth.signOut();
+      setError("This account is not an admin. Add its email to ADMIN_EMAILS in your Netlify environment variables.");
+      return;
+    }
+    router.replace("/admin");
+    router.refresh();
   }
 
   return (

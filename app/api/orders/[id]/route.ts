@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/admin-auth";
 import { z } from "zod";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
 const statusSchema = z.object({ status: z.enum(["pending", "processing", "delivered"]) });
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const supabase = getSupabaseAdmin();
   if (!supabase) return NextResponse.json({ error: "Supabase service role is not configured." }, { status: 500 });
   const parsed = statusSchema.safeParse(await request.json());

@@ -15,14 +15,14 @@ export async function getProducts(includeInactive = false): Promise<Product[]> {
   if (!supabase) return sampleProducts.filter((product) => includeInactive || product.is_active);
 
   try {
-    let query = supabase.from("products").select("*").order("created_at", { ascending: false });
-    if (!includeInactive) query = query.eq("is_active", true);
-    const { data, error } = await query;
+    // Cache the full list (including hidden products) and filter in memory, so the
+    // admin view never gets a cached list that is missing hidden products.
+    const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: false });
     if (error || !data?.length) {
       return sampleProducts.filter((product) => includeInactive || product.is_active);
     }
     memoryCache = { products: data, timestamp: now };
-    return data;
+    return data.filter((product) => includeInactive || product.is_active);
   } catch {
     return sampleProducts.filter((product) => includeInactive || product.is_active);
   }

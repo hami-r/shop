@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { productImageAlt } from "@/lib/seo";
 
-export function ProductGallery({ images, name }: { images: string[]; name: string }) {
+export function ProductGallery({ images, name, category }: { images: string[]; name: string; category?: string | null }) {
   const [selectedImage, setSelectedImage] = useState(images[0] ?? "");
 
   return (
@@ -12,7 +13,7 @@ export function ProductGallery({ images, name }: { images: string[]; name: strin
         {selectedImage ? (
           <Image
             src={selectedImage}
-            alt={name}
+            alt={productImageAlt(name, category, images.indexOf(selectedImage) + 1)}
             fill
             priority
             className="object-cover"
@@ -32,7 +33,7 @@ export function ProductGallery({ images, name }: { images: string[]; name: strin
               onClick={() => setSelectedImage(image)}
               aria-label={`Show ${name} image ${index + 1}`}
             >
-              <Image src={image} alt={`${name} ${index + 1}`} fill className="object-cover" sizes="25vw" />
+              <Image src={image} alt={productImageAlt(name, category, index + 1)} fill className="object-cover" sizes="25vw" />
             </button>
           ))}
         </div>

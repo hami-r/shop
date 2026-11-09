@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
 const bucket = "product-images";
@@ -11,11 +12,8 @@ export async function POST(request: Request) {
   const supabase = getSupabaseAdmin();
   if (!supabase) return NextResponse.json({ error: "Supabase service role is not configured." }, { status: 500 });
 
-  const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
-  if (!token) return NextResponse.json({ error: "Admin session is required." }, { status: 401 });
-
-  const { data: authData, error: authError } = await supabase.auth.getUser(token);
-  if (authError || !authData.user) return NextResponse.json({ error: "Admin session is invalid." }, { status: 401 });
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
 
   const formData = await request.formData();
   const file = formData.get("file");

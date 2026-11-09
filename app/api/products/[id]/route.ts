@@ -1,5 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { productSchema } from "@/lib/validators";
 
@@ -11,6 +12,8 @@ function revalidateProductPaths(slug?: string) {
 }
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const supabase = getSupabaseAdmin();
   if (!supabase) return NextResponse.json({ error: "Supabase service role is not configured." }, { status: 500 });
   const parsed = productSchema.safeParse(await request.json());
@@ -23,6 +26,8 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 }
 
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const supabase = getSupabaseAdmin();
   if (!supabase) return NextResponse.json({ error: "Supabase service role is not configured." }, { status: 500 });
 
@@ -41,7 +46,9 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   return NextResponse.json(data);
 }
 
-export async function DELETE(_request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const supabase = getSupabaseAdmin();
   if (!supabase) return NextResponse.json({ error: "Supabase service role is not configured." }, { status: 500 });
   const { data, error } = await supabase.from("products").update({ is_active: false }).eq("id", params.id).select("slug").single();

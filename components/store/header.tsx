@@ -9,6 +9,7 @@ import { useCartStore } from "@/lib/store";
 const links = [
   ["Home", "/"],
   ["Products", "/products"],
+  ["Bukhoor", "/shop/bukhoor"],
   ["Contact", "/contact"]
 ];
 

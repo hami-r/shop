@@ -5,6 +5,8 @@ import { AddToCartButton } from "@/components/store/add-to-cart-button";
 import { ProductGallery } from "@/components/store/product-gallery";
 import { ProductCard } from "@/components/store/product-card";
 import { getProductBySlug, getProducts, formatAED } from "@/lib/products";
+import { storeInfo } from "@/lib/sample-data";
+import { categoryPath, productImageAlt, toAbsoluteUrl, truncate } from "@/lib/seo";
 import { getBaseUrl } from "@/lib/site-url";
 
 export const revalidate = 60;
@@ -23,8 +25,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!product) return {};
   const baseUrl = getBaseUrl();
   const canonicalUrl = `${baseUrl}/products/${product.slug}`;
-  const title = product.name;
-  const description = product.description ?? `Ask about ${product.name} from Al Miaraj Sharjah UAE.`;
+  // e.g. "Amber Rose Bukhoor – AED 450 | Al Miaraj Sharjah"
+  const title = { absolute: `${product.name} – AED ${Number(product.price).toFixed(0)} | Al Miaraj Sharjah` };
+  const description = truncate(
+    `${product.description ? `${product.description} ` : ""}Buy ${product.name}${
+      product.category ? ` (${product.category})` : ""
+    } at Al Miaraj, Hay Mogader, Sharjah. Enquire on WhatsApp, pick up in store.`
+  );
   const image = product.images?.[0];
 
   return {
@@ -38,7 +45,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       description,
       url: canonicalUrl,
       type: "website",
-      images: image ? [{ url: image, alt: product.name }] : []
+      images: image ? [{ url: image, alt: productImageAlt(product.name, product.category) }] : []
     },
     twitter: {
       card: "summary_large_image",
@@ -61,8 +68,10 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
     "@type": "Product",
     name: product.name,
     description: product.description ?? `${product.name} available at Al Miaraj in Sharjah UAE`,
-    image: product.images?.length ? product.images : undefined,
-    category: product.category,
+    image: product.images?.length ? product.images.map((image) => toAbsoluteUrl(image, baseUrl)) : undefined,
+    sku: product.id,
+    url: `${baseUrl}/products/${product.slug}`,
+    category: product.category ?? undefined,
     brand: {
       "@type": "Brand",
       name: "Al Miaraj"
@@ -74,7 +83,13 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
       price: product.price,
       priceValidUntil: "2027-12-31",
       availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-      itemCondition: "https://schema.org/NewCondition"
+      itemCondition: "https://schema.org/NewCondition",
+      seller: { "@id": `${baseUrl}/#localbusiness` },
+      availableAtOrFrom: {
+        "@type": "Place",
+        name: storeInfo.name,
+        address: { "@type": "PostalAddress", streetAddress: storeInfo.address, addressLocality: "Sharjah", addressCountry: "AE" }
+      }
     }
   };
 
@@ -92,7 +107,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
         "@type": "ListItem",
         position: 2,
         name: product.category || "Products",
-        item: `${baseUrl}/products${product.category ? `?category=${encodeURIComponent(product.category)}` : ""}`
+        item: product.category ? `${baseUrl}${categoryPath(product.category)}` : `${baseUrl}/products`
       },
       {
         "@type": "ListItem",
@@ -112,14 +127,14 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
           <nav aria-label="Breadcrumb" className="label mb-6 flex items-center gap-2 overflow-x-auto text-on-surface-variant">
             <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <span>/</span>
-            <Link href={`/products?category=${encodeURIComponent(product.category ?? "All")}`} className="hover:text-primary transition-colors">
+            <Link href={product.category ? categoryPath(product.category) : "/products"} className="hover:text-primary transition-colors">
               {product.category ?? "Products"}
             </Link>
             <span>/</span>
             <span className="text-secondary font-medium" aria-current="page">{product.name}</span>
           </nav>
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-            <ProductGallery images={images} name={product.name} />
+            <ProductGallery images={images} name={product.name} category={product.category} />
             <div className="flex flex-col gap-7">
               <div>
                 <p className="label mb-3 text-secondary">{product.category ?? "Shop Item"}</p>

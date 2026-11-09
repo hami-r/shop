@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { priceCartItems } from "@/lib/pricing";
 import type { CartItem } from "@/lib/types";
 
 function isCartItem(item: unknown): item is CartItem {
@@ -26,10 +27,15 @@ export async function POST(request: Request) {
   if (!supabase) return NextResponse.json({ error: "Supabase service role is not configured." }, { status: 500 });
 
   const body = await request.json();
-  const items = body.items;
-  if (!Array.isArray(items) || !items.length || !items.every(isCartItem)) {
+  const rawItems = body.items;
+  if (!Array.isArray(rawItems) || !rawItems.length || !rawItems.every(isCartItem)) {
     return NextResponse.json({ error: "Cart items are required." }, { status: 400 });
   }
+  if (rawItems.length > 100) return NextResponse.json({ error: "Too many items." }, { status: 400 });
+
+  // Re-price from the catalogue so the shared cart always shows real prices.
+  const items = await priceCartItems(rawItems);
+  if (!items) return NextResponse.json({ error: "One of the products is no longer available." }, { status: 400 });
 
   const editToken = crypto.randomUUID();
   const { data, error } = await supabase

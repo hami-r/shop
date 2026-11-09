@@ -68,9 +68,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "LocalBusiness",
+        "@type": "Store",
         "@id": `${baseUrl}/#localbusiness`,
         name: storeInfo.name,
+        description: defaultDescription,
+        areaServed: ["Sharjah", "Dubai", "Ajman", "United Arab Emirates"],
         url: baseUrl,
         image: ogImage,
         telephone: storeInfo.phone,

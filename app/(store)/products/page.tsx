@@ -3,9 +3,11 @@ import { ProductCard } from "@/components/store/product-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getCategories } from "@/lib/categories";
 import { getProducts } from "@/lib/products";
+import { categoryPath } from "@/lib/seo";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Bukhoor, Oud & Perfumes Catalog",
+  title: "Bukhoor, Oud & Perfumes in Sharjah – Shop All Products",
   description: "Browse Al Miaraj products, send an enquiry on WhatsApp, and visit the Sharjah shop for pickup.",
   alternates: {
     canonical: "/products"
@@ -35,7 +37,14 @@ export default async function ProductsPage({
     <section className="px-5 py-10 md:px-16 md:py-16">
       <div className="mx-auto max-w-boutique">
         <SectionHeading eyebrow="Products" title="Browse Al Miaraj in Sharjah" />
-        <form className="mt-8 grid gap-3 rounded-3xl bg-surface-container-low p-4 md:grid-cols-[1fr_auto]">
+        <nav aria-label="Categories" className="mt-8 flex flex-wrap gap-3">
+          {categories.map((item) => (
+            <Link key={item} href={categoryPath(item)} className="rounded-full bg-surface-container-low px-4 py-2 text-sm font-semibold text-primary hover:text-secondary">
+              {item}
+            </Link>
+          ))}
+        </nav>
+        <form className="mt-6 grid gap-3 rounded-3xl bg-surface-container-low p-4 md:grid-cols-[1fr_auto]">
           <input name="q" defaultValue={searchParams.q} className="input" placeholder="Search Bukhoor, Oud, perfume..." />
           <select name="category" defaultValue={category} className="input md:w-56">
             <option>All</option>

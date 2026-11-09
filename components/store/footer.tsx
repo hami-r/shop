@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Instagram, Mail, MapPin, Phone } from "lucide-react";
-import { storeInfo } from "@/lib/sample-data";
+import { categories, storeInfo } from "@/lib/sample-data";
+import { categoryPath, getCategoryCopy } from "@/lib/seo";
 
 export function Footer() {
   return (
     <footer className="bg-primary px-5 py-12 text-white md:px-16">
-      <div className="mx-auto grid max-w-boutique gap-8 md:grid-cols-[1.3fr_1fr_1fr]">
+      <div className="mx-auto grid max-w-boutique gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
           <h2 className="font-display text-3xl font-semibold">Al Miaraj</h2>
           <p className="mt-3 max-w-sm text-sm leading-6 text-white/75">
@@ -17,6 +18,13 @@ export function Footer() {
           <Link href="/cart">Cart</Link>
           <Link href="/checkout">Enquire</Link>
           <Link href="/contact">Contact</Link>
+        </div>
+        <div className="grid gap-3 text-sm text-white/80">
+          {categories.map((category) => (
+            <Link key={category} href={categoryPath(category)}>
+              {getCategoryCopy(category).heading}
+            </Link>
+          ))}
         </div>
         <div className="grid gap-3 text-sm text-white/80">
           <a className="flex items-center gap-2" href={storeInfo.googleMapsUrl} target="_blank" rel="noreferrer">

@@ -65,21 +65,14 @@ create policy "Public can read product images"
 on storage.objects for select
 using (bucket_id = 'product-images');
 
+-- Row level security: the site only uses the service role key on the server.
+alter table products enable row level security;
+alter table orders enable row level security;
+alter table messages enable row level security;
+alter table categories enable row level security;
+alter table cart_links enable row level security;
+
+-- Uploads go through the admin-only /api/uploads route, so no direct storage writes.
 drop policy if exists "Authenticated users can upload product images" on storage.objects;
-create policy "Authenticated users can upload product images"
-on storage.objects for insert
-to authenticated
-with check (bucket_id = 'product-images');
-
 drop policy if exists "Authenticated users can update product images" on storage.objects;
-create policy "Authenticated users can update product images"
-on storage.objects for update
-to authenticated
-using (bucket_id = 'product-images')
-with check (bucket_id = 'product-images');
-
 drop policy if exists "Authenticated users can delete product images" on storage.objects;
-create policy "Authenticated users can delete product images"
-on storage.objects for delete
-to authenticated
-using (bucket_id = 'product-images');
