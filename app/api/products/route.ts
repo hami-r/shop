@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { getAdminUser, requireAdmin } from "@/lib/admin-auth";
 import { getProducts } from "@/lib/products";
+import { saveProduct } from "@/lib/product-write";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { productSchema } from "@/lib/validators";
 
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
   const parsed = productSchema.safeParse(await request.json());
   if (!parsed.success) return NextResponse.json({ error: parsed.error.errors[0]?.message }, { status: 400 });
 
-  const { data, error } = await supabase.from("products").insert(parsed.data).select("*").single();
+  const { data, error } = await saveProduct(supabase, parsed.data);
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   revalidatePath("/");
   revalidatePath("/products");

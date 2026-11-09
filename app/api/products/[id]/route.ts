@@ -1,6 +1,7 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
+import { saveProduct } from "@/lib/product-write";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { productSchema } from "@/lib/validators";
 
@@ -19,7 +20,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   const parsed = productSchema.safeParse(await request.json());
   if (!parsed.success) return NextResponse.json({ error: parsed.error.errors[0]?.message }, { status: 400 });
 
-  const { data, error } = await supabase.from("products").update(parsed.data).eq("id", params.id).select("*").single();
+  const { data, error } = await saveProduct(supabase, parsed.data, params.id);
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   revalidateProductPaths(data.slug);
   return NextResponse.json(data);
